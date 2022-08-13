@@ -1,44 +1,39 @@
-# FFC Template Node
+# FFC Payment Statement Web
 
-Template to support rapid delivery of microservices for FFC Platform. It contains the configuration needed to deploy a simple Hapi Node server to the Azure Kubernetes Platform.
-
-## Usage
-
-Create a new repository from this template and run `./rename.js` specifying the new name of the project and the description to use e.g.
-```
-./rename.js ffc-demo-web "Web frontend for demo workstream"
-```
-
-The script will update the following:
-
-* `package.json`: update `name`, `description`, `homepage`
-* `docker-compose.yaml`: update the service name, `image` and `container_name`
-* `docker-compose.test.yaml`: update the service name, `image` and `container_name`
-* `docker-compose.override.yaml`: update the service name, `image` and `container_name`
-* Rename `helm/ffc-template-node`
-* `helm/ffc-template-node/Chart.yaml`: update `description` and `name`
-* `helm/ffc-template-node/values.yaml`: update  `name`, `namespace`, `workstream`, `image`, `containerConfigMap.name`
-* `helm/ffc-template-node/templates/_container.yaml`: update the template name
-* `helm/ffc-template-node/templates/cluster-ip-service.yaml`: update the template name and list parameter of include
-* `helm/ffc-template-node/templates/config-map.yaml`: update the template name and list parameter of include
-* `helm/ffc-template-node/templates/deployment.yaml`: update the template name, list parameter of deployment and container includes
-
-### Notes on automated rename
-
-* The Helm chart deployment values in `helm/ffc-template-node/values.yaml` may need updating depending on the resource needs of your microservice
-* The rename is a one-way operation i.e. currently it doesn't allow the name being changed from to be specified
-* There is some validation on the input to try and ensure the rename is successful, however, it is unlikely to stand up to malicious entry
-* Once the rename has been performed the script can be removed from the repo
-* Should the rename go awry the changes can be reverted via `git clean -df && git checkout -- .`
+FFC payment statement viewer
 
 ## Prerequisites
 
+- Azure App Registration Setup
 - Docker
 - Docker Compose
 
 Optional:
 - Kubernetes
 - Helm
+
+## Azure App Registration
+
+This service has been integrated into Azure App Registration using the msal-node [npm package](https://www.npmjs.com/package/@azure/msal-node)
+
+By default, authentication is disabled.  It can be enabled by setting the `AUTHENTICATION_ENABLED` environment variable to `true`
+
+If authentication is enabled, this service needs to be registered with [Azure App Registration](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app)
+
+The following environment varibles need to be set:
+
+- AZUREID_CLIENT_ID
+- AZUREID_TENANT_ID
+- AZUREID_CLIENT_SECRET
+
+These can be retrieved from the App Registration overview blade.
+
+The following roles need [setting up](https://docs.microsoft.com/en-us/azure/active-directory/develop/howto-add-app-roles-in-azure-ad-apps)
+
+- Payments.Holds.Admin
+- Payments.Scheme.Admin
+
+For users to access this service, the users need to be assigned to the relevant roles above through Azure Enterprise Applications.
 
 ## Running the application
 
@@ -68,8 +63,11 @@ docker-compose build
 
 Use Docker Compose to run service locally.
 
+Additional Docker Compose files are provided for scenarios such as linking to other running services.
+
+Link to other services:
 ```
-docker-compose up
+docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up
 ```
 
 ## Test structure

@@ -1,10 +1,26 @@
+version: '3.8'
+
 services:
-  ffc-template-node:
+  ffc-pay-statement-web:
+    depends_on: 
+      - ffc-pay-statement-web-azurite
     build:
       context: .
       target: production
-    image: ffc-template-node
-    container_name: ffc-template-node
+    image: ffc-pay-statement-web
+    container_name: ffc-pay-statement-web
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-template-node-local
+      APPINSIGHTS_CLOUDROLE: ffc-pay-statement-web-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
+      AZUREID_CLIENT_SECRET: ${AZUREID_CLIENT_SECRET}
+      AZUREID_CLIENT_ID: ${AZUREID_CLIENT_ID}
+      AZUREID_TENANT_ID: ${AZUREID_TENANT_ID}
+      REDIRECT_URL: ${REDIRECT_URL}
+      COOKIE_PASSWORD: cookiecookiecookiecookiecookiecookie
+      AZURE_STORAGE_USE_CONNECTION_STRING: "true"
+      AZURE_STORAGE_CREATE_CONTAINERS: "true"
+      AZURE_STORAGE_ACCOUNT_NAME: ${AZURE_STORAGE_ACCOUNT_NAME:-devstoreaccount1}
+
+  ffc-pay-statement-web-azurite:
+    image: mcr.microsoft.com/azure-storage/azurite:3.17.1
+    command: "azurite --blobHost 0.0.0.0 --tableHost 0.0.0.0 --loose"

@@ -1,15 +1,24 @@
+version: '3.8'
+
 # This override file should be used when running automated tests so
 # that test output is saved to the host
 
 services:
-  ffc-template-node:
+  ffc-pay-statement-web:
     build:
       target: development
-    image: ffc-template-node-development
-    container_name: ffc-template-node-test
+    image: ffc-pay-statement-web-development
+    container_name: ffc-pay-statement-web-test
     command: npm run test
+    environment:
+      NODE_ENV: ${NODE_ENV:-test}
+      AZUREID_CLIENT_SECRET: itsasecretshhhhhhhh
+      AZUREID_CLIENT_ID: NCC-1701-D
+      AZUREID_TENANT_ID: C3PO-R2D2
+      REDIRECT_URL: http://thesearenotthedroidsyouarelookingfor
+      AUTHENTICATION_ENABLED: "true"
+      AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://ffc-pay-statement-web-azurite:10000/devstoreaccount1;
     volumes:
-      - ./app:/home/node/app
       - ./test:/home/node/test
       - ./test-output:/home/node/test-output
       - ./jest.config.js:/home/node/jest.config.js

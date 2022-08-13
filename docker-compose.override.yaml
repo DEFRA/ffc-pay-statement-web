@@ -1,15 +1,27 @@
+version: '3.8'
+
 # This override file should be used when running this service in isolation
 # to provide dependencies and expose ports for local testing
 
 services:
-  ffc-template-node:
+  ffc-pay-statement-web:
     build:
       target: development
-    image: ffc-template-node-development
-    container_name: ffc-template-node-development
+    image: ffc-pay-statement-web-development
+    container_name: ffc-pay-statement-web-development
     ports:
-      - "3000:3000"
-      - "9229:9229"
+      - "3055:3055"
+      - "9255:9229"
     volumes:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
+    environment:
+      AZURE_STORAGE_CONNECTION_STRING: DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://ffc-pay-statement-web-azurite:10000/devstoreaccount1;
+  
+  ffc-pay-statement-web-azurite:
+    volumes:
+      - azurite_data:/data
+    ports:
+      - "10055:10000"
+volumes:
+  azurite_data:

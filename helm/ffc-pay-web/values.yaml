@@ -1,0 +1,74 @@
+environment: development
+environmentCode:
+name: ffc-pay-statement-web
+namespace: ffc-pay
+workstream: ffc-pay
+image: ffc-pay-statement-web
+
+labels: 
+  component: web
+
+appInsights:
+  key:
+
+azureAppRegistration:
+  enabled: true
+  clientId:
+  clientSecret:
+  tenantId:
+  redirectUrl: authenticate
+
+azureIdentity:
+  clientID: not-a-real-clientID
+  resourceID: not-a-real-resourceID
+
+containerConfigMap:
+  name: ffc-pay-statement-web-config-map
+
+containerSecret:
+  name: ffc-pay-statement-web-container-secret
+  type: Opaque
+
+service:
+  port: 80
+  type: ClusterIP
+
+deployment:
+  restartPolicy: Always
+  priorityClassName: default
+  replicas: 1
+  minReadySeconds: 0
+
+container:
+  imagePullPolicy: Always
+  requestMemory: 10Mi
+  requestCpu: 10m
+  limitMemory: 120Mi
+  limitCpu: 60m
+  port: 3055
+  cookiePassword: cookiecookiecookiecookiecookiecookie
+  azureStorageConnectionString: dummy
+  azureStorageUseConnectionString: false
+  azureStorageCreateContainers: false
+  azureStorageAccountName: ffcpay
+
+ingress:
+  class: nginx
+  endpoint: ffc-pay-statement-web
+  server: example.com
+
+livenessProbe:
+  path: /healthz
+  port: 3055
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  failureThreshold: 3
+
+readinessProbe:
+  path: /healthy
+  port: 3055
+  initialDelaySeconds: 10
+  periodSeconds: 10
+  failureThreshold: 3
+
+aadPodIdentity: true
