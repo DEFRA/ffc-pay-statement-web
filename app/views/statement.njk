@@ -1,0 +1,97 @@
+{% extends '_layout.njk' %}
+
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+{% block content %}
+
+  {{ govukBreadcrumbs({
+    items: [{
+      text: "Home",
+      href: "/"
+        }]
+    })
+  }}
+
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+      <h1 class="govuk-heading-l"> {{ model[0].scheme.name }} ({{ model[0].scheme.shortName }}) {{ model[0].scheme.year }} payment statement </h1>
+
+      <p class="govuk-body"> This statement explains your payment for the {{ model[0].scheme.name }} ({{ model[0].scheme.shortName }}). It is made up of 3 parts. </p>
+      <p class="govuk-body">
+        Part 1 provides a summary of the most recent payment. <br>
+        Part 2 explains how we calculated the payment. <br>
+        Part 3 highlights where to go for more support.
+      </p>
+
+      <h2 class="govuk-heading-m"> Part 1. Payment summary </h2>
+
+      <div style="border: black;border-style: solid;">
+        <p class="govuk-body"> Your payment for your {{ model[0].scheme.shortName }} agreement is £{{ model[0].payments[0].value }} </p>
+        <p class="govuk-body"> We will usually pay this into your account within 2 working days of {{ model[0].payments[0].dueDate }}. </p>
+        <p class="govuk-body" style="margin-bottom: 0px;"> Payment period: {{ model[0].payments[0].period }} <br>
+            Calculation date: {{ model[0].payments[0].calculated }} <br>
+            Payment reference number: {{ model[0].payments[0].reference }}
+        </p>
+      </div><br>
+
+      <h2 class="govuk-heading-m"> Part 2. Calculation </h2>
+
+      <p class="govuk-body"> We calculated the total SFI payment amount by adding together payments for all the standards which are part of your agreement, as shown in this table. </p>
+
+      <table class="govuk-table">
+
+            <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header">Standard</th>
+                    <th scope="col" class="govuk-table__header">Level</th>
+                    <th scope="col" class="govuk-table__header">Rate per ha (£)</th>
+                    <th scope="col" class="govuk-table__header">Land area (ha)</th>
+                    <th scope="col" class="govuk-table__header">Annual value (£)</th>
+                    <th scope="col" class="govuk-table__header">Quarterly value (£)</th>
+                    <th scope="col" class="govuk-table__header">Quarterly reduction (£)</th>
+                    <th scope="col" class="govuk-table__header">Quarterly payment  (£)</th>
+                </tr>
+            </thead>
+
+            <tbody class="govuk-table__body">
+                {% for statement in model %}
+                    {% for funding in statement.funding %}
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.name }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.level }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.rate }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.area }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.annualValue }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyValue }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyReduction }}</td>
+                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyPayment }}</td>                        
+                    </tr>
+                    {% endfor %}
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+      <p class="govuk-body"> You can check which land parcels are part of each standard in the Rural Payments service at <a style="text-decoration: underline;">www.gov.uk/claim-rural-payments</a>. </p>
+
+      <h2 class="govuk-heading-m"> Part 3. More information </h2>
+
+      <p class="govuk-body"> If you think your payments are wrong, you should: log into the Rural Payments service <a style="text-decoration: underline;">www.gov.uk/claim-rural-payments</a> to check your SFI standard agreement check statements and letters you've received from us review the SFI scheme information at <a style="text-decoration: underline;">www.gov.uk/government/collections/sustainable-farming-incentive-guidance</a>. </p>
+
+      <h3 class="govuk-heading-s"> If you have any questions about this statement </h3>
+
+      <p class="govuk-body"> You can email <a style="text-decoration: underline;">ruralpayments@defra.gov.uk</a> or call us on 03000 200 301 (Monday to Friday, 8.30am to 5pm). Please tell us your SBI and Agreement number if applicable which are at the top of this statement. </p>
+
+
+      {{ govukButton({
+        text: "Create new hold",
+        href: "/add-payment-hold",
+        isStartButton: true
+        }) 
+      }}
+
+    </div>
+  </div>
+
+{% endblock %}
