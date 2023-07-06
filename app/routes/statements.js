@@ -1,24 +1,39 @@
-const { getStatements, getStatementByFrn } = require('../controllers/statement')
+const { getStatements, getStatementByPaymentRequestNumber } = require('../controllers/statement')
 
 const ViewModel = require('./models/statement')
 
 module.exports = [{
   method: 'GET',
-  path: '/statements',
+  path: '/{frn}/statements',
   options: {
     handler: async (_request, h) => {
-      const statements = getStatements()
-      return statements
+      const statements = getStatements(Number(_request.params.frn))
+      if (!statements.length) {
+        return h.view('404').code(404)
+      }
+      return h.view('statements', { ...new ViewModel(statements), frn: _request.params.frn })
     }
   }
 },
 {
   method: 'GET',
-  path: '/statements/{frn}',
+  path: '/{frn}/statements/{paymentRequestNumber}',
   options: {
     handler: async (_request, h) => {
-      const statement = getStatementByFrn(Number(_request.params.frn))
+      const statement = getStatementByPaymentRequestNumber(Number(_request.params.frn), Number(_request.params.paymentRequestNumber))
+      if (!statement) {
+        return h.view('404').code(404)
+      }
       return h.view('statement', new ViewModel(statement))
+    }
+  }
+},
+{
+  method: 'POST',
+  path: '/statements',
+  options: {
+    handler: async (_request, h) => {
+      return h.redirect(`/${Number(_request.payload.frn)}/statements/${Number(_request.payload.paymentRequestNumber)}`)
     }
   }
 }]

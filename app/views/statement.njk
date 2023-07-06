@@ -1,7 +1,6 @@
 {% extends '_layout.njk' %}
 
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "govuk/components/button/macro.njk" import govukButton %}
 
 {% block content %}
 
@@ -18,22 +17,22 @@
     
       <img class="logo">
 
-      <p class="govuk-body"> {{ model[0].address.line1 }} <br>
-        {{ model[0].address.line2 }} <br>
-        {{ model[0].address.line3 }} <br>
-        {{ model[0].address.line4 }} <br>
-        {{ model[0].address.line5 }} <br>
-        {{ model[0].address.postcode }}
+      <p class="govuk-body"> {{ model.address.line1 }} <br>
+        {{ model.address.line2 }} <br>
+        {{ model.address.line3 }} <br>
+        {{ model.address.line4 }} <br>
+        {{ model.address.line5 }} <br>
+        {{ model.address.postcode }}
       </p>
 
-      <p class="govuk-body"> Single Business Identifier (SBI): {{ model[0].sbi }} <br>
-        Business name: {{ model[0].businessName }} <br>
-        Agreement reference number: {{ model[0].scheme.agreementNumber }} 
+      <p class="govuk-body"> Single Business Identifier (SBI): {{ model.sbi }} <br>
+        Business name: {{ model.businessName }} <br>
+        Agreement reference number: {{ model.scheme.agreementNumber }} 
       </p>
 
-      <h1 class="govuk-heading-l"> {{ model[0].scheme.name }} ({{ model[0].scheme.shortName }}) {{ model[0].scheme.year }} payment statement </h1>
+      <h1 class="govuk-heading-l"> {{ model.scheme.name }} ({{ model.scheme.shortName }}) {{ model.scheme.year }} payment statement </h1>
 
-      <p class="govuk-body"> This statement explains your payment for the {{ model[0].scheme.name }} ({{ model[0].scheme.shortName }}). It is made up of 3 parts. </p>
+      <p class="govuk-body"> This statement explains your payment for the {{ model.scheme.name }} ({{ model.scheme.shortName }}). It is made up of 3 parts. </p>
       <p class="govuk-body">
         Part 1 provides a summary of the most recent payment. <br>
         Part 2 explains how we calculated the payment. <br>
@@ -43,11 +42,11 @@
       <h2 class="govuk-heading-m"> Part 1. Payment summary </h2>
 
       <div style="border: black;border-style: solid;">
-        <p class="govuk-body"> Your payment for your {{ model[0].scheme.shortName }} agreement is £{{ model[0].payments[0].value }} </p>
-        <p class="govuk-body"> We will usually pay this into your account within 2 working days of {{ model[0].payments[0].dueDate }}. </p>
-        <p class="govuk-body" style="margin-bottom: 0px;"> Payment period: {{ model[0].payments[0].period }} <br>
-            Calculation date: {{ model[0].payments[0].calculated }} <br>
-            Payment reference number: {{ model[0].payments[0].reference }}
+        <p class="govuk-body"> Your payment for your {{ model.scheme.shortName }} agreement is £{{ model.payments[0].value }} </p>
+        <p class="govuk-body"> We will usually pay this into your account within 2 working days of {{ model.payments[0].dueDate }}. </p>
+        <p class="govuk-body" style="margin-bottom: 0px;"> Payment period: {{ model.payments[0].period }} <br>
+            Calculation date: {{ model.payments[0].calculated }} <br>
+            Payment reference number: {{ model.payments[0].reference }}
         </p>
       </div><br>
 
@@ -71,20 +70,18 @@
             </thead>
 
             <tbody class="govuk-table__body">
-                {% for statement in model %}
-                    {% for funding in statement.funding %}
-                    <tr class="govuk-table__row">
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.name }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.level }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.rate }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.area }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.annualValue }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyValue }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyReduction }}</td>
-                        <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyPayment }}</td>                        
-                    </tr>
-                    {% endfor %}
-                {% endfor %}
+              {% for funding in model.funding %}
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.name }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.level }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.rate }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.area }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.annualValue }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyValue }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyReduction }}</td>
+                    <td class="govuk-table__cell {% if funding.name == 'Total' %}govuk-!-font-weight-bold{% endif %}">{{ funding.quarterlyPayment }}</td>                        
+                </tr>
+              {% endfor %}
             </tbody>
 
         </table>
@@ -98,15 +95,7 @@
       <h3 class="govuk-heading-s"> If you have any questions about this statement </h3>
 
       <p class="govuk-body"> You can email <a style="text-decoration: underline;">ruralpayments@defra.gov.uk</a> or call us on 03000 200 301 (Monday to Friday, 8.30am to 5pm). Please tell us your SBI and Agreement number if applicable which are at the top of this statement. </p>
-
-
-      {{ govukButton({
-        text: "Create new hold",
-        href: "/add-payment-hold",
-        isStartButton: true
-        }) 
-      }}
-
+      
     </div>
   </div>
 

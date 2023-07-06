@@ -1,10 +1,10 @@
 const statement1 = {
-  businessName: 'Statement 1',
-  email: 'farm@farms.com',
+  businessName: 'Customer 1',
+  email: 'customer1@email.com',
   frn: 1234567890,
   sbi: 123456789,
   address: {
-    line1: '1 Some Street',
+    line1: 'Address 1',
     line2: 'Some Area',
     line3: 'Some Town',
     line4: 'Some Region',
@@ -42,7 +42,7 @@ const statement1 = {
   payments: [
     {
       invoiceNumber: 'S000000200000002V001',
-      reference: '10027651',
+      reference: Math.floor(Math.random() * 1000000000),
       dueDate: '1 August 2022',
       settled: '3 July 2022',
       calculated: '16 Jun 2022',
@@ -62,12 +62,22 @@ const statement1 = {
 }
 
 const statement2 = {
-  businessName: 'Statement 2',
-  email: 'farm@farms.com',
-  frn: 1234567891,
+  ...statement1,
+  payments: [{ ...statement1.payments[0], reference: Math.floor(Math.random() * 1000000000) }, statement1.payments[1]]
+}
+
+const statement3 = {
+  ...statement1,
+  payments: [{ ...statement1.payments[0], reference: Math.floor(Math.random() * 1000000000) }, statement1.payments[1]]
+}
+
+const statement4 = {
+  businessName: 'Customer 2',
+  email: 'customer2@email.com',
+  frn: 9876543210,
   sbi: 123456789,
   address: {
-    line1: '1 Some Street',
+    line1: 'Address 2',
     line2: 'Some Area',
     line3: 'Some Town',
     line4: 'Some Region',
@@ -124,7 +134,15 @@ const statement2 = {
   remainingAmount: 0
 }
 
-module.exports = {
-  statement1,
-  statement2
+const statement5 = {
+  ...statement4,
+  payments: [{ ...statement4.payments[0], reference: Math.floor(Math.random() * 1000000000) }, statement4.payments[1]]
 }
+
+module.exports = [
+  statement1,
+  statement2,
+  statement3,
+  statement4,
+  statement5
+]

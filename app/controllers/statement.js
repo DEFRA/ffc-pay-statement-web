@@ -1,16 +1,17 @@
-const { statement1, statement2 } = require('../data/statement')
+const statements = require('../data/statement')
 
-const statements = [statement1, statement2]
-
-const getStatements = () => {
-  return statements
+const getStatements = (frn) => {
+  return statements.filter(x => x.frn === frn)
 }
 
-const getStatementByFrn = (frn) => {
-  return statements.filter(x => x.frn === frn)
+const getStatementByPaymentRequestNumber = (frn, paymentRequestNumber) => {
+  const s = getStatements(frn)
+  console.log(paymentRequestNumber)
+  console.log(s[paymentRequestNumber - 1])
+  return s[paymentRequestNumber - 1] ?? []
 }
 
 module.exports = {
   getStatements,
-  getStatementByFrn
+  getStatementByPaymentRequestNumber
 }
