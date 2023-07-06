@@ -15,6 +15,20 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
+
+      <p class="govuk-body"> {{ model[0].address.line1 }} <br>
+        {{ model[0].address.line2 }} <br>
+        {{ model[0].address.line3 }} <br>
+        {{ model[0].address.line4 }} <br>
+        {{ model[0].address.line5 }} <br>
+        {{ model[0].address.postcode }}
+      </p>
+
+      <p class="govuk-body"> Single Business Identifier (SBI): {{ model[0].sbi }} <br>
+        Business name: {{ model[0].businessName }} <br>
+        Agreement reference number: {{ model[0].scheme.agreementNumber }} 
+      </p>
+
       <h1 class="govuk-heading-l"> {{ model[0].scheme.name }} ({{ model[0].scheme.shortName }}) {{ model[0].scheme.year }} payment statement </h1>
 
       <p class="govuk-body"> This statement explains your payment for the {{ model[0].scheme.name }} ({{ model[0].scheme.shortName }}). It is made up of 3 parts. </p>
