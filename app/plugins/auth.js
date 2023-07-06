@@ -1,5 +1,6 @@
-const config = require('../config')
 const authCookie = require('@hapi/cookie')
+
+const config = require('../config')
 const auth = require('../auth')
 
 module.exports = {

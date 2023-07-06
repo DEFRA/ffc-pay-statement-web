@@ -63,12 +63,12 @@ const statement1 = {
 
 const statement2 = {
   ...statement1,
-  payments: [{ ...statement1.payments[0], reference: Math.floor(Math.random() * 1000000000) }, statement1.payments[1]]
+  payments: [{ ...statement1.payments[0], reference: Math.floor(Math.random() * 1000000000), period: 'July to Sep 2022' }]
 }
 
 const statement3 = {
   ...statement1,
-  payments: [{ ...statement1.payments[0], reference: Math.floor(Math.random() * 1000000000) }, statement1.payments[1]]
+  payments: [{ ...statement1.payments[0], reference: Math.floor(Math.random() * 1000000000), period: 'Oct to Dec 2022' }]
 }
 
 const statement4 = {
@@ -136,7 +136,7 @@ const statement4 = {
 
 const statement5 = {
   ...statement4,
-  payments: [{ ...statement4.payments[0], reference: Math.floor(Math.random() * 1000000000) }, statement4.payments[1]]
+  payments: [{ ...statement4.payments[0], reference: Math.floor(Math.random() * 1000000000), period: 'July to Sep 2022' }]
 }
 
 module.exports = [

@@ -1,11 +1,14 @@
 const { getStatements, getStatementByPaymentRequestNumber } = require('../controllers/statement')
 
+const { statementView } = require('../auth/permissions')
+
 const ViewModel = require('./models/statement')
 
 module.exports = [{
   method: 'GET',
   path: '/{frn}/statements',
   options: {
+    auth: { scope: [statementView] },
     handler: async (_request, h) => {
       const statements = getStatements(Number(_request.params.frn))
       if (!statements.length) {

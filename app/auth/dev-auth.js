@@ -8,18 +8,18 @@ const getAuthenticationUrl = () => {
 
 const authenticate = async (_redirectCode, cookieAuth) => {
   cookieAuth.set({
-    scope: [statementView, statementView],
+    scope: [statementView],
     account: devAccount
   })
 }
 
 const refresh = async (_account, cookieAuth, _forceRefresh = true) => {
   cookieAuth.set({
-    scope: [statementView, statementView],
+    scope: [statementView],
     account: devAccount
   })
 
-  return [statementView, statementView]
+  return [statementView]
 }
 
 const logout = async (_account) => {
