@@ -3,7 +3,9 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
-const isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+let isDev = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+
+isDev = true
 
 console.log(`Running webpack in ${isDev ? 'development' : 'production'} mode`)
 
@@ -12,7 +14,8 @@ module.exports = {
     core: [
       './app/frontend/css/index.js',
       './app/frontend/images/favicon.ico',
-      './app/frontend/images/search-icon.png'
+      './app/frontend/images/search-icon.png',
+      './app/frontend/images/logo.jpg'
     ]
   },
   mode: isDev ? 'development' : 'production',
