@@ -5,10 +5,7 @@ const getStatements = (frn) => {
 }
 
 const getStatementByPaymentRequestNumber = (frn, paymentRequestNumber) => {
-  const s = getStatements(frn)
-  console.log(paymentRequestNumber)
-  console.log(s[paymentRequestNumber - 1])
-  return s[paymentRequestNumber - 1] ?? []
+  return getStatements(frn)[paymentRequestNumber - 1] ?? []
 }
 
 module.exports = {

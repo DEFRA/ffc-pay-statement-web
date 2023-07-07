@@ -1,5 +1,3 @@
-const auth = require('../auth')
-
 module.exports = {
   method: 'GET',
   path: '/dev-auth',
@@ -8,8 +6,7 @@ module.exports = {
   },
   handler: async (request, h) => {
     try {
-      await auth.authenticate(undefined, request.cookieAuth)
-      return h.redirect('/')
+      return h.redirect('/email-confirmation')
     } catch (err) {
       console.error('Error authenticating', err)
     }

@@ -22,6 +22,7 @@ module.exports = [{
   method: 'GET',
   path: '/{frn}/statements/{paymentRequestNumber}',
   options: {
+    auth: { scope: [statementView] },
     handler: async (_request, h) => {
       const statement = getStatementByPaymentRequestNumber(Number(_request.params.frn), Number(_request.params.paymentRequestNumber))
       if (!statement) {
