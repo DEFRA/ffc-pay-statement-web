@@ -37,7 +37,7 @@
     "applicationinsights": "1.8.10",
     "govuk-frontend": "3.14.0",
     "hapi-pino": "8.3.0",
-    "joi": "17.4.0",
+    "joi": "17.9.2",
     "log-timestamp": "0.3.0",
     "moment": "2.29.3",
     "nunjucks": "3.2.3",
